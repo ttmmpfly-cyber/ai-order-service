@@ -1,4 +1,4 @@
-import os
+﻿import os
 import httpx
 
 from dotenv import load_dotenv
@@ -10,19 +10,19 @@ LLM_BASE_URL= os.getenv("LLM_BASE_URL")
 LLM_MODEL= os.getenv("LLM_MODEL")
 
 if not LLM_API_KEY:
-    raise RuntimeError("LLM_API_KEY 没有配置")
+    raise RuntimeError("LLM_API_KEY 娌℃湁閰嶇疆")
 
 if not LLM_BASE_URL:
-    raise RuntimeError("LLM_BASE_URL 没有配置")
+    raise RuntimeError("LLM_BASE_URL 娌℃湁閰嶇疆")
 
 if not LLM_MODEL:
-    raise RuntimeError("LLM_MODEL 没有配置")
+    raise RuntimeError("LLM_MODEL 娌℃湁閰嶇疆")
 
 async def call_llm(
     system_prompt:str,
     user_message:str
 )-> str:
-    
+
     headers = {
         "Authorization": f"Bearer {LLM_API_KEY}",
         "Content-Type":"application/json"
@@ -48,6 +48,10 @@ async def call_llm(
             headers=headers,
             json=payload
         )
+
+        if response.status_code != 200:
+            print("Groq 鐘舵€佺爜:", response.status_code)
+            print("Groq 閿欒璇︽儏:", response.text[:1000])
 
         response.raise_for_status()
 
